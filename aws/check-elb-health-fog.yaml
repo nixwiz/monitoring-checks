@@ -19,7 +19,7 @@ metadata:
   name: check-elb-health-fog
 spec:
   command: >-
-    check-alb-elb-health-fog
+    check-elb-health-fog
     --aws_region={{ .annotations.check_elb_health_fog_aws_region | default "us-east-1" }}
     --elb_name={{ .annotations.check_elb_health_fog_elb_name | default "" }}
     --instances={{ .annotations.check_elb_health_fog_instances | default "" }}

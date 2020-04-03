@@ -19,7 +19,7 @@ metadata:
   name: check-elb-health-sdk
 spec:
   command: >-
-    check-alb-elb-health-sdk
+    check-elb-health-sdk
     --aws_region={{ .annotations.check_elb_health_sdk_aws_region | default "us-east-1" }}
     --elb_name={{ .annotations.check_elb_health_sdk_elb_name | default "" }}
     --instances={{ .annotations.check_elb_health_sdk_instances | default "" }}

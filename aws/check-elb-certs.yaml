@@ -19,7 +19,7 @@ metadata:
   name: check-elb-certs
 spec:
   command: >-
-    check-alb-elb-certs
+    check-elb-certs
     --aws_region={{ .annotations.check_elb_certs_aws_region | default "us-east-1" }}
     --warning={{ .annotations.check_elb_certs_warning | default 30 }}
     --critical={{ .annotations.check_elb_certs_critical | default 5 }}

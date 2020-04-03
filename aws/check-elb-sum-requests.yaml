@@ -19,7 +19,7 @@ metadata:
   name: check-elb-sum-requests
 spec:
   command: >-
-    check-alb-elb-sum-requests
+    check-elb-sum-requests
     --aws_region={{ .annotations.check_elb_sum_requests_aws_region | default "us-east-1" }}
     --elb_names={{ .annotations.check_elb_sum_requests_elb_names | default "" }}
     --period={{ .annotations.check_elb_sum_requests_period | default 60 }}

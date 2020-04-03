@@ -19,7 +19,7 @@ metadata:
   name: check-elb-latency
 spec:
   command: >-
-    check-alb-elb-latency
+    check-elb-latency
     --aws_region={{ .annotations.check_elb_latency_aws_region | default "us-east-1" }}
     --elb_names={{ .annotations.check_elb_latency_elb_names | default "" }}
     --period={{ .annotations.check_elb_latency_period | default 60 }}

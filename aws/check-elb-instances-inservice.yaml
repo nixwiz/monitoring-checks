@@ -19,7 +19,7 @@ metadata:
   name: check-elb-instances-inservice
 spec:
   command: >-
-    check-alb-elb-instances-inservice
+    check-elb-instances-inservice
     --aws_region={{ .annotations.check_elb_instances_inservice_aws_region | default "us-east-1" }}
     --elb_name={{ .annotations.check_elb_instances_inservice_elb_name | default "" }}
   runtime_assets:
