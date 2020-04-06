@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check the health of an ELB
+#   Check the CPU balance for EC2 instances
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/ec2" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,22 +14,24 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-elb-health-fog
+  name: check-ec2-cpu_balance
 spec:
   command: >-
-    check-elb-health-fog
-    --aws_region={{ .annotations.check_elb_health_fog_aws_region | default "us-east-1" }}
-    --elb_name={{ .annotations.check_elb_health_fog_elb_name | default "" }}
-    --instances={{ .annotations.check_elb_health_fog_instances | default "" }}
-    --verbose={{ .annotations.check_elb_health_fog_verbose | default false }}
+    check-ec2-cpu_balance
+    --aws_region={{ .annotations.check_ec2_cpu_balance_aws_region | default "us-east-1" }}
+    --warning={{ .annotations.check_ec2_cpu_balance_warning | default 2.3 }}
+    --critical={{ .annotations.check_ec2_cpu_balance_critical | default 1.2 }}
+    --tag={{ .annotations.check_ec2_cpu_balance_tag | default "NAME" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/ec2
   interval: 30
   timeout: 10
   ttl: 0

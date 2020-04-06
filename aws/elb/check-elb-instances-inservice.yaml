@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check the status of a cloudwatch alarm
+#   Check the health of an ELB
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/elb" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,20 +14,22 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-cloudwatch-alarm
+  name: check-elb-instances-inservice
 spec:
   command: >-
-    check-cloudwatch-alarm
-    --aws_region={{ .annotations.check_cloudwatch_alarm_aws_region | default "us-east-1" }}
-    --state={{ .annotations.check_cloudwatch_alarm_state | default "ALARM" }}
+    check-elb-instances-inservice
+    --aws_region={{ .annotations.check_elb_instances_inservice_aws_region | default "us-east-1" }}
+    --elb_name={{ .annotations.check_elb_instances_inservice_elb_name | default "" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/elb
   interval: 30
   timeout: 10
   ttl: 0

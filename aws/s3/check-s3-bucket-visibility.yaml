@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check the all https ELB endpoints in a region for expiring certificates
+#   Check S3 bucket for website configuration and bucket policy
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/s3" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,22 +14,26 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-elb-certs
+  name: check-s3-bucket-visibility
 spec:
   command: >-
-    check-elb-certs
-    --aws_region={{ .annotations.check_elb_certs_aws_region | default "us-east-1" }}
-    --warning={{ .annotations.check_elb_certs_warning | default 30 }}
-    --critical={{ .annotations.check_elb_certs_critical | default 5 }}
-    --verbose={{ .annotations.check_elb_certs_verbose | default false }}
+    check-s3-bucket-visibility
+    --aws_region={{ .annotations.check_s3_bucket_visibility_aws_region | default "us-west-1" }}
+    --bucket_names={{ .annotations.check_s3_bucket_visibility_bucket_names | default "" }}
+    --all_buckets={{ .annotations.check_s3_bucket_visibility_all_buckets | default "false" }}
+    --exclude_buckets={{ .annotations.check_s3_bucket_visibility_exclude_buckets | default "" }}
+    --exclude_buckets_regex={{ .annotations.check_s3_bucket_visibility_exclude_buckets_regex | default "" }}
+    --critical_on_missing={{ .annotations.check_s3_bucket_visibility_critical_on_missing | default "false" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/s3
   interval: 30
   timeout: 10
   ttl: 0

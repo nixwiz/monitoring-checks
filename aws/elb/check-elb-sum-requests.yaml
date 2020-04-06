@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check the status of a cloudwatch alarm, with exclusions
+#   Check sum of ELB requests
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/elb" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,21 +14,25 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-cloudwatch-alarms
+  name: check-elb-sum-requests
 spec:
   command: >-
-    check-cloudwatch-alarms
-    --aws_region={{ .annotations.check_cloudwatch_alarms_aws_region | default "us-east-1" }}
-    --state={{ .annotations.check_cloudwatch_alarms_state | default "ALARM" }}
-    --exclude_alarms={{ .annotations.check_cloudwatch_alarms_exclude_alarms | default "" }}
+    check-elb-sum-requests
+    --aws_region={{ .annotations.check_elb_sum_requests_aws_region | default "us-east-1" }}
+    --elb_names={{ .annotations.check_elb_sum_requests_elb_names | default "" }}
+    --period={{ .annotations.check_elb_sum_requests_period | default 60 }}
+    --critical_over={{ .annotations.check_elb_sum_requests_critical_over|  default 60 }}
+    --warning_over={{ .annotations.check_elb_sum_requests_warning_over|  default 60 }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/elb
   interval: 30
   timeout: 10
   ttl: 0

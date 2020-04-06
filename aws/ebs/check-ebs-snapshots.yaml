@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check if object exists in S3 bucket
+#   Check EC2 attached volumes for snapshots (only with a name tag)
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/ebs" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,24 +14,23 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-s3-object
+  name: check-ebs-snapshots
 spec:
   command: >-
-    check-s3-object
-    --aws_region={{ .annotations.check_s3_object_aws_region | default "us-west-1" }}
-    --bucket_name={{ .annotations.check_s3_object_bucket_name | default "" }}
-    --key_name={{ .annotations.check_s3_object_key_name | default "" }}
-    --key_prefix={{ .annotations.check_s3_object_key_prefix | default "" }}
-    --warning_age={{ .annotations.check_s3_object_warning_age | default 90000 }}
-    --critical_age={{ .annotations.check_s3_object_critical_age | default 126000 }}
+    check-ebs-snapshots
+    --aws_region={{ .annotations.check_ebs_snapshots_aws_region | default "us-east-1" }}
+    --period={{ .annotations.check_ebs_snapshots_period | default 7 }}
+    --check_ignored={{ .annotations.check_ebs_snapshots_check_ignored | default "true" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/ebs
   interval: 30
   timeout: 10
   ttl: 0

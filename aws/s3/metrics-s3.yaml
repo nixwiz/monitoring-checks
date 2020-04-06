@@ -1,9 +1,11 @@
 ---
 # Description
-#   Retrieve two CloudWatch metric values and compute percentages to trigger alarm
+#
+#   Provide S3 metrics from Cloudwatch
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/s3" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,35 +15,30 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-cloudwatch-composite-metric
+  name: metrics-s3
 spec:
   command: >-
-    check-cloudwatch-composite-metric
-    --aws_region={{ .annotations.check_cloudwatch_composite_metric_aws_region | default "us-east-1" }}
-    --state={{ .annotations.check_cloudwatch_composite_metric_state | default "ALARM" }}
-    --exclude_alarms={{ .annotations.check_cloudwatch_composite_metrics_exclude_alarms | default "" }}
-    --namespace={{ .annotations.check_cloudwatch_composite_metrics_namespace | default "AWS/EC2" }}
-    --dimensions={{ .annotations.check_cloudwatch_composite_metrics_dimensions | default "" }}
-    --period={{ .annotations.check_cloudwatch_composite_metrics_period | default 60 }}
-    --statistic={{ .annotations.check_cloudwatch_composite_metrics_statistic | default "Average" }}
-    --compare={{ .annotations.check_cloudwatch_composite_metrics_compare | default "greater" }}
-    --critical={{ .annotations.check_cloudwatch_composite_metrics_critical | default 0 }}
-    --warining={{ .annotations.check_cloudwatch_composite_metrics_warining | default 0 }}
+    metrics-s3
+    --aws_region={{ .annotations.metrics_s3_aws_region | default "us-east-1" }}
+    --scheme={{ .annotations.metrics_s3_scheme | default "sensu.aws.s3.buckets" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/s3
   interval: 30
   timeout: 10
   ttl: 0
   proxy_entity_name: ""
   stdin: false
-  handlers:
-    - alert
+  output_metric_format: graphite_plaintext
+  output_metric_handlers:
+    - metric-storage
 ---
 type: Asset
 api_version: core/v2

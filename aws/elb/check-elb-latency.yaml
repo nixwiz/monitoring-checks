@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check S3 bucket existence
+#   Check the latency of an ELB
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/elb" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,20 +14,26 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-s3-bucket
+  name: check-elb-latency
 spec:
   command: >-
-    check-s3-bucket
-    --aws_region={{ .annotations.check_s3_bucket_aws_region | default "us-west-1" }}
-    --bucket_name={{ .annotations.check_s3_bucket_bucket_name | default "" }}
+    check-elb-latency
+    --aws_region={{ .annotations.check_elb_latency_aws_region | default "us-east-1" }}
+    --elb_names={{ .annotations.check_elb_latency_elb_names | default "" }}
+    --period={{ .annotations.check_elb_latency_period | default 60 }}
+    --statistics={{ .annotations.check_elb_latency_statistics | default "average" }}
+    --critical_over={{ .annotations.check_elb_latency_critical_over | default 60 }}
+    --warning_over={{ .annotations.check_elb_latency_warning_over | default 60 }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/elb
   interval: 30
   timeout: 10
   ttl: 0

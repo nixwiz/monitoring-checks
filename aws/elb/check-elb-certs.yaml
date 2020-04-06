@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check RDS instance statuses by RDS and Cloudwatch
+#   Check the all https ELB endpoints in a region for expiring certificates
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/elb" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,30 +14,24 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-rds
+  name: check-elb-certs
 spec:
   command: >-
-    check-rds
-    --aws_region={{ .annotations.check_rds_aws_region | default "us-west-1" }}
-    --db_instance_id={{ .annotations.check_rds_db_instance_id | default "" }}
-    --scheme={{ .annotations.check_rds_scheme | default "" }}
-    --fetch_age={{ .annotations.check_rds_fetch_age | default 0 }}
-    --period={{ .annotations.check_rds_period | default 180 }}
-    --statistic={{ .annotations.check_rds_statistic | default "average" }}
-    --db_cluster_id={{ .annotations.check_rds_db_cluster_id | default "" }}
-    --accept_nil={{ .annotations.check_rds_accept_nil | default "false" }}
-    --availability_zone_severity={{ .annotations.check_rds_availability_zone_severity | default "critical" }}
-    --available_zone={{ .annotations.check_rds_availability_zone | default "us-west-1a" }}
-    --cpu_critical_over={{ .annotations.check_rds_cpu_critical_over | default 80 }}
-    --cpu_warning_over={{ .annotations.check_rds_cpu_warning_over | default 40 }}
+    check-elb-certs
+    --aws_region={{ .annotations.check_elb_certs_aws_region | default "us-east-1" }}
+    --warning={{ .annotations.check_elb_certs_warning | default 30 }}
+    --critical={{ .annotations.check_elb_certs_critical | default 5 }}
+    --verbose={{ .annotations.check_elb_certs_verbose | default false }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/elb
   interval: 30
   timeout: 10
   ttl: 0

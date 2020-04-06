@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check the health of an ELB
+#   Retrieve two CloudWatch metric values and compute percentages to trigger alarm
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/cloudwatch" subscriptions to agents that should
+#      run this check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,24 +14,30 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-elb-health-sdk
+  name: check-cloudwatch-composite-metric
 spec:
   command: >-
-    check-elb-health-sdk
-    --aws_region={{ .annotations.check_elb_health_sdk_aws_region | default "us-east-1" }}
-    --elb_name={{ .annotations.check_elb_health_sdk_elb_name | default "" }}
-    --instances={{ .annotations.check_elb_health_sdk_instances | default "" }}
-    --verbose={{ .annotations.check_elb_health_sdk_verbose | default false }}
-    --instance_tag={{ .annotations.check_elb_health_sdk_instance_tag | default "NAME" }}
-    --warn_only={{ .annotations.check_elb_health_sdk_warn_only | default false }}
+    check-cloudwatch-composite-metric
+    --aws_region={{ .annotations.check_cloudwatch_composite_metric_aws_region | default "us-east-1" }}
+    --state={{ .annotations.check_cloudwatch_composite_metric_state | default "ALARM" }}
+    --exclude_alarms={{ .annotations.check_cloudwatch_composite_metrics_exclude_alarms | default "" }}
+    --namespace={{ .annotations.check_cloudwatch_composite_metrics_namespace | default "AWS/EC2" }}
+    --dimensions={{ .annotations.check_cloudwatch_composite_metrics_dimensions | default "" }}
+    --period={{ .annotations.check_cloudwatch_composite_metrics_period | default 60 }}
+    --statistic={{ .annotations.check_cloudwatch_composite_metrics_statistic | default "Average" }}
+    --compare={{ .annotations.check_cloudwatch_composite_metrics_compare | default "greater" }}
+    --critical={{ .annotations.check_cloudwatch_composite_metrics_critical | default 0 }}
+    --warining={{ .annotations.check_cloudwatch_composite_metrics_warining | default 0 }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/cloudwatch
   interval: 30
   timeout: 10
   ttl: 0

@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check RDS clusters for pending maintenance actions
+#   Check the health of an ELB
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/elb" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,19 +14,26 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-rds-pending
+  name: check-elb-health-sdk
 spec:
   command: >-
-    check-rds-pending
-    --aws_region={{ .annotations.check_rds_pending_aws_region | default "us-east-1" }}
+    check-elb-health-sdk
+    --aws_region={{ .annotations.check_elb_health_sdk_aws_region | default "us-east-1" }}
+    --elb_name={{ .annotations.check_elb_health_sdk_elb_name | default "" }}
+    --instances={{ .annotations.check_elb_health_sdk_instances | default "" }}
+    --verbose={{ .annotations.check_elb_health_sdk_verbose | default false }}
+    --instance_tag={{ .annotations.check_elb_health_sdk_instance_tag | default "NAME" }}
+    --warn_only={{ .annotations.check_elb_health_sdk_warn_only | default false }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/elb
   interval: 30
   timeout: 10
   ttl: 0

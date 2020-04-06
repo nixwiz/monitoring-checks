@@ -3,7 +3,8 @@
 #   Retrieves EC2 instances matching a filter, returning the number matched
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/ec2" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,6 +14,7 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
@@ -33,6 +35,7 @@ spec:
   publish: false
   subscriptions:
     - aws
+    - aws/ec2
   interval: 30
   timeout: 10
   ttl: 0

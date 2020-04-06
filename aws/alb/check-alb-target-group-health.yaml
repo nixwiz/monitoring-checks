@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check the CPU balance for EC2 instances
+#   Check the health of Application Load Balancer (ALB) target groups
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/alb" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,22 +14,22 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-ec2-cpu_balance
+  name: check-alb-target-group-health
 spec:
   command: >-
-    check-ec2-cpu_balance
-    --aws_region={{ .annotations.check_ec2_cpu_balance_aws_region | default "us-east-1" }}
-    --warning={{ .annotations.check_ec2_cpu_balance_warning | default 2.3 }}
-    --critical={{ .annotations.check_ec2_cpu_balance_critical | default 1.2 }}
-    --tag={{ .annotations.check_ec2_cpu_balance_tag | default "NAME" }}
+    check-alb-target-group-health
+    --aws_region={{ .annotations.check_alb_target_group_health_aws_region | default "us-east-1" }}
+    --target_groups={{ .annotations.check_alb_target_group_health_target_groups | default "target-group-1" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/alb
   interval: 30
   timeout: 10
   ttl: 0

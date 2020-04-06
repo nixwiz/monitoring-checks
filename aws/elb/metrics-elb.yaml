@@ -1,9 +1,13 @@
 ---
 # Description
-#   Check the health of Application Load Balancer (ALB) target groups
+#
+# NOTE:  DOES NOT ACTUALLY OUTPUT METRICS IN A USABLE FORMAT
+#
+#   Provide specified metrics for an ELB
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/elb" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,27 +17,34 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-alb-target-group-health
+  name: metrics-elb
 spec:
   command: >-
-    check-alb-target-group-health
-    --aws_region={{ .annotations.check_alb_target_group_health_aws_region | default "us-east-1" }}
-    --target_groups={{ .annotations.check_alb_target_group_health_target_groups | default "target-group-1" }}
+    metrics-elb
+    --aws_region {{ .annotations.metrics_elb_aws_region | default "us-east-1" }}
+    --elb_name {{ .annotations.metrics_elb_elb_name | default "" }}
+    --period {{ .annotations.metrics_elb_period | default 60 }}
+    --fetch_age {{ .annotations.metrics_elb_fetch_age | default 60 }}
+    --critical_over {{ .annotations.metrics_elb_critical_over | default 60 }}
+    --warning_over {{ .annotations.metrics_elb_warning_over | default 60 }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/elb
   interval: 30
   timeout: 10
   ttl: 0
   proxy_entity_name: ""
   stdin: false
-  handlers:
-    - alert
+  output_metric_format: graphite_plaintext
+  output_metric_handlers:
+    - metric-storage
 ---
 type: Asset
 api_version: core/v2

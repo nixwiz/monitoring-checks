@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check that minimum number or percentage of nodes are in service in an ELB
+#   Check RDS clusters for pending maintenance actions
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/rds" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,24 +14,21 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-elb-nodes
+  name: check-rds-pending
 spec:
   command: >-
-    check-elb-nodes
-    --aws_region={{ .annotations.check_elb_nodes_aws_region | default "us-east-1" }}
-    --elb_name={{ .annotations.check_elb_nodes_elb_name | default "" }}
-    --critical={{ .annotations.check_elb_nodes_critical | default -1 }}
-    --warning={{ .annotations.check_elb_nodes_warning | default -1 }}
-    --critical_percentage={{ .annotations.check_elb_nodes_critical_percentage | default -1 }}
-    --warning_percentage={{ .annotations.check_elb_nodes_warning_percentage | default -1 }}
+    check-rds-pending
+    --aws_region={{ .annotations.check_rds_pending_aws_region | default "us-east-1" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/rds
   interval: 30
   timeout: 10
   ttl: 0

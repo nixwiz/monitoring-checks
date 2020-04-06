@@ -1,9 +1,11 @@
 ---
 # Description
-#   Check if S3 buckets have a set of tags
+#
+#   Provide RDS metrics from Cloudwatch
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/rds" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,27 +15,33 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-s3-tag
+  name: metrics-rds
 spec:
   command: >-
-    check-s3-tag
-    --aws_region={{ .annotations.check_s3_tag_aws_region | default "us-west-1" }}
-    --tag_keys={{ .annotations.check_s3_tag_tag_keys | default "" }}
+    metrics-rds
+    --aws_region={{ .annotations.metrics_rds_aws_region | default "us-east-1" }}
+    --db_instance_id={{ .annotations.metrics_rds_db_instance_id | default "" }}
+    --scheme={{ .annotations.metrics_rds_scheme | default "" }}
+    --fetch_age={{ .annotations.metrics_rds_fetch_age | default 0 }}
+    --period={{ .annotations.metrics_rds_period | default 60 }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/rds
   interval: 30
   timeout: 10
   ttl: 0
   proxy_entity_name: ""
   stdin: false
-  handlers:
-    - alert
+  output_metric_format: graphite_plaintext
+  output_metric_handlers:
+    - metric-storage
 ---
 type: Asset
 api_version: core/v2

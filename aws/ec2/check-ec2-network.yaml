@@ -1,9 +1,10 @@
 ---
 # Description
-#   Check EC2 attached volumes for snapshots (only with a name tag)
+#   Check EC2 network metrics by CloudWatch
 #
 # Instructions
-#   1. Add the "aws" subscription to agents that should run this check.
+#   1. Add the "aws" or "aws/ec2" subscriptions to agents that should run this
+#      check.
 #   2. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
@@ -13,21 +14,27 @@
 # Contributors
 #   The following individuals have contributed to this configuration template:
 #   - Todd Campbell, @nixwiz
+#   - Caleb Hailey, @calebhailey
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-ebs-snapshots
+  name: check-ec2-network
 spec:
   command: >-
-    check-ebs-snapshots
-    --aws_region={{ .annotations.check_ebs_snapshots_aws_region | default "us-east-1" }}
-    --period={{ .annotations.check_ebs_snapshots_period | default 7 }}
-    --check_ignored={{ .annotations.check_ebs_snapshots_check_ignored | default "true" }}
+    check-ec2-network
+    --aws_region={{ .annotations.check_ec2_network_aws_region | default "us-east-1" }}
+    --warning={{ .annotations.check_ec2_network_warning | default 1500000 }}
+    --critical={{ .annotations.check_ec2_network_critical | default 1000000 }}
+    --instance_id={{ .annotations.check_ec2_network_instance_id | default "" }}
+    --end_time={{ .annotations.check_ec2_network_end_time | default "NOW" }}
+    --period={{ .annotations.check_ec2_network_min_period | default 60 }}
+    --direction={{ .annotations.check_ec2_filter_direction | default "NetworkIn" }}
   runtime_assets:
     - sensu-plugins/sensu-plugins-aws:0.0.5
   publish: false
   subscriptions:
     - aws
+    - aws/ec2
   interval: 30
   timeout: 10
   ttl: 0
