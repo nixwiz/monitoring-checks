@@ -31,7 +31,7 @@ spec:
     --statistic={{ .annotations.check_cloudwatch_composite_metrics_statistic | default "Average" }}
     --compare={{ .annotations.check_cloudwatch_composite_metrics_compare | default "greater" }}
     --critical={{ .annotations.check_cloudwatch_composite_metrics_critical | default 0 }}
-    --warining={{ .annotations.check_cloudwatch_composite_metrics_warining | default 0 }}
+    --warning={{ .annotations.check_cloudwatch_composite_metrics_warning | default 0 }}
   runtime_assets:
     - sensu/sensu-aws:0.0.5
   publish: false
