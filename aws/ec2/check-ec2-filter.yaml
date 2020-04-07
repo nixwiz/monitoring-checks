@@ -9,7 +9,7 @@
 #      plugin documentation for more details.
 #
 # Documentation
-#   - Usage: https://github.com/sensu-plugins/sensu-plugins-aws#usage-examples
+#   - Usage: https://github.com/sensu/sensu-aws#usage-examples
 #
 # Contributors
 #   The following individuals have contributed to this configuration template:
@@ -31,7 +31,7 @@ spec:
     --min_running_secs={{ .annotations.check_ec2_filter_min_running_secs | default 0 }}
     --filters={{ .annotations.check_ec2_filter_filters | default "{\"filters\" : [{\"name\" : \"instance-state-name\", \"values\": [\"running\"]}]}" }}
   runtime_assets:
-    - sensu-plugins/sensu-plugins-aws:0.0.5
+    - sensu/sensu-aws:0.0.5
   publish: false
   subscriptions:
     - aws

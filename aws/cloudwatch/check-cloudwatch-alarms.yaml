@@ -9,7 +9,7 @@
 #      plugin documentation for more details.
 #
 # Documentation
-#   - Usage: https://github.com/sensu-plugins/sensu-plugins-aws#usage-examples
+#   - Usage: https://github.com/sensu/sensu-aws#usage-examples
 #
 # Contributors
 #   The following individuals have contributed to this configuration template:
@@ -26,7 +26,7 @@ spec:
     --state={{ .annotations.check_cloudwatch_alarms_state | default "ALARM" }}
     --exclude_alarms={{ .annotations.check_cloudwatch_alarms_exclude_alarms | default "" }}
   runtime_assets:
-    - sensu-plugins/sensu-plugins-aws:0.0.5
+    - sensu/sensu-aws:0.0.5
   publish: false
   subscriptions:
     - aws

@@ -9,7 +9,7 @@
 #      plugin documentation for more details.
 #
 # Documentation
-#   - Usage: https://github.com/sensu-plugins/sensu-plugins-aws#usage-examples
+#   - Usage: https://github.com/sensu/sensu-aws#usage-examples
 #
 # Contributors
 #   The following individuals have contributed to this configuration template:
@@ -25,7 +25,7 @@ spec:
     --aws_region={{ .annotations.check_elb_instances_inservice_aws_region | default "us-east-1" }}
     --elb_name={{ .annotations.check_elb_instances_inservice_elb_name | default "" }}
   runtime_assets:
-    - sensu-plugins/sensu-plugins-aws:0.0.5
+    - sensu/sensu-aws:0.0.5
   publish: false
   subscriptions:
     - aws

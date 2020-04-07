@@ -9,7 +9,7 @@
 #      plugin documentation for more details.
 #
 # Documentation
-#   - Usage: https://github.com/sensu-plugins/sensu-plugins-aws#usage-examples
+#   - Usage: https://github.com/sensu/sensu-aws#usage-examples
 #
 # Contributors
 #   The following individuals have contributed to this configuration template:
@@ -29,7 +29,7 @@ spec:
     --warning_age={{ .annotations.check_s3_object_warning_age | default 90000 }}
     --critical_age={{ .annotations.check_s3_object_critical_age | default 126000 }}
   runtime_assets:
-    - sensu-plugins/sensu-plugins-aws:0.0.5
+    - sensu/sensu-aws:0.0.5
   publish: false
   subscriptions:
     - aws
