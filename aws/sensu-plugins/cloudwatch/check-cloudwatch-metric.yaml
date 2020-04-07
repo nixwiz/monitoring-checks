@@ -1,7 +1,7 @@
 ---
 # Description
-#   Check retrieves a couple of values of two CloudWatch metrics, computes a percentage
-#   based on the numerator and denominator metrics
+#   Check retrieves a value of a CloudWatch metric and triggers alarms based
+#   on supplied thresholds
 #
 # Instructions
 #   1. Add the "aws" or "aws/cloudwatch" subscriptions to agents that should run this
