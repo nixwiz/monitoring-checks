@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-elb-sum-requests
+  name: sensu-aws/check-elb-sum-requests
 spec:
   command: >-
     check-elb-sum-requests

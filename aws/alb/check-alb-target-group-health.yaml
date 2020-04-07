@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-alb-target-group-health
+  name: sensu-aws/check-alb-target-group-health
 spec:
   command: >-
     check-alb-target-group-health

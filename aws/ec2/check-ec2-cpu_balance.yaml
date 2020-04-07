@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-ec2-cpu_balance
+  name: sensu-aws/check-ec2-cpu_balance
 spec:
   command: >-
     check-ec2-cpu_balance

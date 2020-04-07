@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-rds
+  name: sensu-aws/check-rds
 spec:
   command: >-
     check-rds

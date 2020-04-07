@@ -19,7 +19,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: metrics-rds
+  name: sensu-aws/metrics-rds
 spec:
   command: >-
     metrics-rds

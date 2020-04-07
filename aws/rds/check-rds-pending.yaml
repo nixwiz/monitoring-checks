@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-rds-pending
+  name: sensu-aws/check-rds-pending
 spec:
   command: >-
     check-rds-pending

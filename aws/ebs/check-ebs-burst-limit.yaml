@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-ebs-burst-limit
+  name: sensu-aws/check-ebs-burst-limit
 spec:
   command: >-
     check-ebs-burst-limit

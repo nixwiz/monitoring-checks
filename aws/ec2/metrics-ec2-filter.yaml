@@ -21,7 +21,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: metrics-ec2-filter
+  name: sensu-aws/metrics-ec2-filter
 spec:
   command: >-
     metrics-ec2-filter

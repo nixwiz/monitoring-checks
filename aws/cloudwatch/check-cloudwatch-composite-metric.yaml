@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-cloudwatch-composite-metric
+  name: sensu-aws/check-cloudwatch-composite-metric
 spec:
   command: >-
     check-cloudwatch-composite-metric

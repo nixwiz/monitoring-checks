@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-s3-object
+  name: sensu-aws/check-s3-object
 spec:
   command: >-
     check-s3-object

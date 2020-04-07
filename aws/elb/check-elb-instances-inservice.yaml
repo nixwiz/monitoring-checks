@@ -18,7 +18,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-elb-instances-inservice
+  name: sensu-aws/check-elb-instances-inservice
 spec:
   command: >-
     check-elb-instances-inservice

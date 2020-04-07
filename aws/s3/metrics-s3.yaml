@@ -19,7 +19,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: metrics-s3
+  name: sensu-aws/metrics-s3
 spec:
   command: >-
     metrics-s3

@@ -21,7 +21,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: metrics-elb
+  name: sensu-aws/metrics-elb
 spec:
   command: >-
     metrics-elb
